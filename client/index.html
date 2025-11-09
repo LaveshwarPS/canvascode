@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Drawing Canvas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎨 Collaborative Drawing Canvas</h1>
+            <div class="room-info">
+                <span id="room-name">Room: default</span>
+                <span id="user-name">User: Guest</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Toolbar -->
+            <aside class="toolbar">
+                <div class="tool-section">
+                    <h3>Tools</h3>
+                    <div class="tool-buttons">
+                        <button id="brush-tool" class="tool-btn active" title="Brush (B)">
+                            <span class="icon">🖌️</span>
+                            <span>Brush</span>
+                        </button>
+                        <button id="eraser-tool" class="tool-btn" title="Eraser (E)">
+                            <span class="icon">🧹</span>
+                            <span>Eraser</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Color</h3>
+                    <div class="color-picker-container">
+                        <input type="color" id="color-picker" value="#000000">
+                        <div class="preset-colors">
+                            <div class="color-preset" data-color="#000000" style="background: #000000;"></div>
+                            <div class="color-preset" data-color="#FF0000" style="background: #FF0000;"></div>
+                            <div class="color-preset" data-color="#00FF00" style="background: #00FF00;"></div>
+                            <div class="color-preset" data-color="#0000FF" style="background: #0000FF;"></div>
+                            <div class="color-preset" data-color="#FFFF00" style="background: #FFFF00;"></div>
+                            <div class="color-preset" data-color="#FF00FF" style="background: #FF00FF;"></div>
+                            <div class="color-preset" data-color="#00FFFF" style="background: #00FFFF;"></div>
+                            <div class="color-preset" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #ccc;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Brush Size</h3>
+                    <div class="slider-container">
+                        <input type="range" id="brush-size" min="1" max="50" value="3">
+                        <span id="brush-size-value">3px</span>
+                    </div>
+                    <div class="brush-preview">
+                        <div id="brush-preview-dot"></div>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Actions</h3>
+                    <div class="action-buttons">
+                        <button id="undo-btn" class="action-btn" title="Undo (Ctrl+Z)">
+                            <span class="icon">↶</span>
+                            <span>Undo</span>
+                        </button>
+                        <button id="redo-btn" class="action-btn" title="Redo (Ctrl+Y)">
+                            <span class="icon">↷</span>
+                            <span>Redo</span>
+                        </button>
+                        <button id="clear-btn" class="action-btn danger" title="Clear Canvas">
+                            <span class="icon">🗑️</span>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Online Users (<span id="user-count">0</span>)</h3>
+                    <div id="users-list" class="users-list">
+                        <!-- Users will be dynamically added here -->
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Performance</h3>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span>FPS:</span>
+                            <span id="fps-counter">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Latency:</span>
+                            <span id="latency">-</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Canvas Area -->
+            <div class="canvas-container">
+                <canvas id="drawing-canvas"></canvas>
+                <canvas id="cursor-canvas"></canvas>
+                <div id="connection-status" class="connection-status disconnected">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Room Modal -->
+    <div id="join-modal" class="modal">
+        <div class="modal-content">
+            <h2>Join Drawing Room</h2>
+            <div class="form-group">
+                <label for="username-input">Your Name:</label>
+                <input type="text" id="username-input" placeholder="Enter your name" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="room-input">Room Name:</label>
+                <input type="text" id="room-input" placeholder="default" value="default" maxlength="20">
+            </div>
+            <button id="join-btn" class="primary-btn">Join Room</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="canvas.js"></script>
+    <script src="websocket.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
